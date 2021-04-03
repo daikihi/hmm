@@ -1,18 +1,22 @@
 package net.hms.lib
 
 import akka.actor.{Actor, ActorRef, Props}
-import akka.event.{Logging, LoggingAdapter}
 
 import scala.reflect.ClassTag
 
-class MainActor[T <:  Actor: ClassTag](implicit tag: ClassTag[T]) extends Actor {
+class MainActor[T <:  Actor: ClassTag](implicit tag: ClassTag[T]) extends HmmActor {
+  isMain()
   val useCase: ActorRef = context.system.actorOf(Props(tag.runtimeClass))
-  val log: LoggingAdapter = Logging(context.system, this)
+
+  var sent: Long = 0
 
   def handleSystemMessage(m: SystemMessage): Unit = {
     m match{
       case StartExecuteBatchMessage(appMessage) =>
+        send()
         useCase ! appMessage
+      case DoneMessage() =>
+        receives()
     }
   }
 

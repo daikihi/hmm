@@ -1,5 +1,5 @@
 package net.hms.lib
 
-case class ApplicationMessage() extends Message{
-
-}
+trait ApplicationMessage extends Message
+trait InputMessage extends ApplicationMessage
+trait OutputMessage extends ApplicationMessage

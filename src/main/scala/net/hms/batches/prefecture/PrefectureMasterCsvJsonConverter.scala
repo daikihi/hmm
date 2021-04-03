@@ -10,6 +10,6 @@ object PrefectureMasterCsvJsonConverter {
   def main(args: Array[String]): Unit = {
     val actorSystem = ActorSystem("local-main-actor")
     val mainActor = actorSystem.actorOf(Props(new MainActor[CsvJsonConverterUseCase]()))
-    mainActor ! StartExecuteBatchMessage(ApplicationMessage())
+    mainActor ! StartExecuteBatchMessage(CsvJsonConverterUseCase.RequestConvertMessage())
   }
 }
