@@ -1,12 +1,14 @@
 package net.hms.use_case.prefecture.converters
 
 import akka.actor.{ActorLogging, Props}
+import net.hms.converters.prefectures.csv_json.PrefectureConverterFromCsv
 import net.hms.gateways.files.prefecture.LoadPrefectureMasterGateway
 import net.hms.lib.{DoneMessage, HmmActor, InputMessage}
 import net.hms.use_case.prefecture.converters.CsvJsonConverterUseCase.RequestConvertMessage
 
 class CsvJsonConverterUseCase extends HmmActor with ActorLogging {
   val loader = context.actorOf(Props[LoadPrefectureMasterGateway])
+  val converter = context.actorOf(Props[PrefectureConverterFromCsv])
 
   override def receive: Receive = {
     case RequestConvertMessage() =>
@@ -16,6 +18,9 @@ class CsvJsonConverterUseCase extends HmmActor with ActorLogging {
       loader ! LoadPrefectureMasterGateway.RequestLoadMessage()
     case LoadPrefectureMasterGateway.ResponsePrefecture(line) =>
       println(line)
+      converter ! PrefectureConverterFromCsv.RequestConvertPrefectureMessage(line)
+    case PrefectureConverterFromCsv.ResponseConvertPrefectureMessage(pref) =>
+      println(pref)
     case DoneMessage() =>
       log.info("CsvJsonConverterUseCase receives DONEMessage")
       receives()
