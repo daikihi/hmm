@@ -1,7 +1,10 @@
-package net.hms.gateways.files.prefecture
+package net.hms.infrastructure.gateway.files.prefecture
 
 import akka.actor.ActorRef
-import net.hms.gateways.files.prefecture.LoadPrefectureMasterGateway.{RequestLoadMessage, ResponsePrefecture}
+import net.hms.infrastructure.gateway.files.prefecture.LoadPrefectureMasterGateway.{
+  RequestLoadMessage,
+  ResponsePrefecture
+}
 import net.hms.lib.{DoneMessage, HmmActor, InputMessage, OutputMessage}
 
 import scala.io.Source

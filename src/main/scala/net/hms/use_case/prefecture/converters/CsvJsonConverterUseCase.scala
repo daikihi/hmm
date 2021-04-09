@@ -2,7 +2,7 @@ package net.hms.use_case.prefecture.converters
 
 import akka.actor.{ActorLogging, Props}
 import net.hms.converters.prefectures.csv_json.PrefectureConverterFromCsv
-import net.hms.gateways.files.prefecture.LoadPrefectureMasterGateway
+import net.hms.infrastructure.gateway.files.prefecture.LoadPrefectureMasterGateway
 import net.hms.lib.{DoneMessage, HmmActor, InputMessage}
 import net.hms.use_case.prefecture.converters.CsvJsonConverterUseCase.RequestConvertMessage
 
@@ -24,7 +24,8 @@ class CsvJsonConverterUseCase extends HmmActor with ActorLogging {
     case DoneMessage() =>
       log.info("CsvJsonConverterUseCase receives DONEMessage")
       receives()
-    case msg => log.warning(s"CsvJsonConverterUseCase receives an unknown message : dead letter : $msg")
+    case msg =>
+      log.warning(s"CsvJsonConverterUseCase receives an unknown message : dead letter : $msg")
   }
 }
 
